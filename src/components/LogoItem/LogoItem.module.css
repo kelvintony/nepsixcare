@@ -1,0 +1,31 @@
+.container{
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+/* .logo_img{
+    width: 150px;
+} */
+
+.container p{
+    color: #dfce11;
+    /* color: #6b750d; */
+    /* color: #949661; */
+    font-weight: 600;
+    font-size: 30px;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 35px;
+    margin-left: 195px;
+
+}
+
+@media screen and (max-width: 900px) {
+    .container p{
+        margin-left: 140px;
+    }
+}

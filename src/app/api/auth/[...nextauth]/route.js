@@ -37,10 +37,18 @@ const handler = NextAuth({
           email: credentials.email.toLowerCase(),
         });
 
+        if (!user) {
+          throw new Error('Invalid email or password');
+        }
+
         const comparePassword = await bcryptjs.compare(
           credentials.password,
           user.password
         );
+
+        if (!comparePassword) {
+          throw new Error('Invalid email or password');
+        }
 
         if (user && comparePassword) {
           return {
@@ -52,7 +60,7 @@ const handler = NextAuth({
           };
         }
 
-        throw new Error('Invalid email or password');
+        // throw new Error('Invalid email or password');
         // return null;
       },
     }),

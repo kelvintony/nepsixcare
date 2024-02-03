@@ -6,7 +6,7 @@ import React from 'react';
 import { signIn, signOut, getSession, useSession } from 'next-auth/react';
 import styles from './Dashboard.module.css';
 
-const DashboardUI = () => {
+const DashboardScreen = () => {
   const { status, data: session } = useSession();
   const { user, setUser } = useContext(AppContext);
   console.log('dashboard ran');
@@ -14,15 +14,17 @@ const DashboardUI = () => {
     <div>
       <h1>
         Ahoy{' '}
-        <span
-          style={{
-            background: 'linear-gradient(90deg,#4ca5ff,#b573f8)',
-            // backgroundClip: 'text',
-            padding: '0px 5px',
-          }}
-        >
-          {user?.user?.fullName?.split(' ')[0]}
-        </span>{' '}
+        {user && (
+          <span
+            style={{
+              background: 'linear-gradient(90deg,#4ca5ff,#b573f8)',
+              // backgroundClip: 'text',
+              padding: '0px 5px',
+            }}
+          >
+            {user?.user?.fullName?.split(' ')[0]}
+          </span>
+        )}
         welcome to Nepsix Care
       </h1>
       <p style={{ fontSize: '15px', marginTop: '10px' }}>
@@ -32,4 +34,4 @@ const DashboardUI = () => {
   );
 };
 
-export default DashboardUI;
+export default DashboardScreen;

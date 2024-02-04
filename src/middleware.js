@@ -4,18 +4,20 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(req) {
   const session = await getToken({
     req,
-    secret: `${process.env.NEXTAUTH_SECRET}`,
+    secret: process.env.NEXTAUTH_SECRET,
   });
 
   // console.log('this is middleware session', session);
-
+  console.log('req', req.url);
   const regexUser = new RegExp('/user/*');
   const regexAuth = new RegExp('/auth/*');
   const regexAdmin = new RegExp('/user/admin/*');
 
   // STOP AN UNSIGNED USER FROM ACCESSING RESTRICTED PAGES
   if (regexUser.test(req.nextUrl.pathname) && !session) {
-    return NextResponse.redirect(new URL('/auth/login', req.url));
+    return NextResponse.redirect(
+      new URL(`/auth/login?callbackUrl=${req.url}`, req.url)
+    );
   }
 
   // REDIRECT A SIGNIN USER FROM GOING BACK TO REGISTER
@@ -33,3 +35,5 @@ export async function middleware(req) {
 export const config = {
   matcher: ['/user/:path*', '/auth/:path*'],
 };
+
+// return NextResponse.next()

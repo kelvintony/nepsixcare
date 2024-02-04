@@ -4,7 +4,7 @@ import db from '@/utils/db';
 import User from '@/models/user';
 import bcryptjs from 'bcryptjs';
 
-const handler = NextAuth({
+export const authOptions = {
   secret: `${process.env.NEXTAUTH_SECRET}`,
   session: {
     strategy: 'jwt',
@@ -25,8 +25,12 @@ const handler = NextAuth({
         session.user.fullName = token.fullName;
       }
       if (token?.superUser) session.user.superUser = token.superUser;
+
       return session;
     },
+  },
+  pages: {
+    signIn: '/auth/login',
   },
   providers: [
     CredentialsProvider({
@@ -65,6 +69,8 @@ const handler = NextAuth({
       },
     }),
   ],
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import styles from './Register.module.css';
-import { useRouter } from 'next/navigation';
 import LogoItem from '@/components/LogoItem/LogoItem';
 import SiginLoader from '@/components/SigninLoader/SiginLoader';
 import toast from 'react-hot-toast';
@@ -9,10 +8,18 @@ import toast from 'react-hot-toast';
 import { IoEyeOffSharp } from 'react-icons/io5';
 import { IoEyeOutline } from 'react-icons/io5';
 
+import { useRouter, useSearchParams } from 'next/navigation';
+import { signIn, getSession, useSession } from 'next-auth/react';
+
 import axios from 'axios';
 
 const Register = () => {
   const router = useRouter();
+
+  const params = useSearchParams();
+  const { status, data: session } = useSession();
+
+  let callbackUrl = params.get('callbackUrl') || '/user/dashboard';
 
   const [formData, setFormData] = useState({
     firstName: '',

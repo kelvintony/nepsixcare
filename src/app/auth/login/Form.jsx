@@ -1,7 +1,7 @@
 'use client';
-import React, { useState, forwardRef } from 'react';
+import React, { useState, forwardRef, useEffect } from 'react';
 import styles from './Login.module.css';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import LogoItem from '@/components/LogoItem/LogoItem';
 import SiginLoader from '@/components/SigninLoader/SiginLoader';
 import toast from 'react-hot-toast';
@@ -10,8 +10,13 @@ import { signIn, getSession, useSession } from 'next-auth/react';
 import axios from 'axios';
 import { AppContext } from '@/context/AppContext';
 import { useContext } from 'react';
+
 const Login = () => {
   const router = useRouter();
+  const params = useSearchParams();
+  const { status, data: session } = useSession();
+
+  let callbackUrl = params.get('callbackUrl') || '/user/dashboard';
 
   const { user, setUser } = useContext(AppContext);
 
@@ -27,6 +32,12 @@ const Login = () => {
   const [formDataError, setFormDataError] = useState(false);
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (session && session.user) {
+      router.push(callbackUrl);
+    }
+  }, [callbackUrl, params, router, session]);
 
   const submitFormData = async () => {
     setErrorMessage(null);
@@ -47,7 +58,7 @@ const Login = () => {
         if (result.ok) {
           const session = await getSession();
           setUser(session);
-          setLoading(false);
+          // setLoading(false);
           setFormData({
             email: '',
             password: '',
@@ -60,7 +71,7 @@ const Login = () => {
             },
             position: 'bottom-center',
           });
-          router.push('/user/dashboard');
+          // router.push('/user/dashboard');
         } else {
           setLoading(false);
           toast.error(result.error, {

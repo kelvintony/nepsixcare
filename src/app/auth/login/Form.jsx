@@ -63,14 +63,14 @@ const Login = () => {
             email: '',
             password: '',
           });
-          toast.success('Login successful', {
-            style: {
-              padding: '10px',
-              color: '#fff',
-              backgroundColor: 'green',
-            },
-            position: 'bottom-center',
-          });
+          // toast.success('Login successful', {
+          //   style: {
+          //     padding: '10px',
+          //     color: '#fff',
+          //     backgroundColor: 'green',
+          //   },
+          //   position: 'bottom-center',
+          // });
           // router.push('/user/dashboard');
         } else {
           setLoading(false);

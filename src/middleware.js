@@ -8,7 +8,7 @@ export async function middleware(req) {
   });
 
   // console.log('this is middleware session', session);
-  console.log('req', req.url);
+  // console.log('req', req.url);
   const regexUser = new RegExp('/user/*');
   const regexAuth = new RegExp('/auth/*');
   const regexAdmin = new RegExp('/user/admin/*');
